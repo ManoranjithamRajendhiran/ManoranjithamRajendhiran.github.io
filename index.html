@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manoranjitham R — AI Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #16161f;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --text: #f0eee8;
+    --muted: #8a8799;
+    --accent: #c8f56a;
+    --accent2: #7b6ef6;
+    --accent3: #f06060;
+    --card-bg: #13131b;
+    --tag-bg: rgba(200,245,106,0.1);
+    --tag-border: rgba(200,245,106,0.25);
+    --tag-text: #c8f56a;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Lora', serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 4rem;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex; gap: 2rem; list-style: none;
+  }
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 8rem 4rem 6rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 60% 60% at 80% 20%, rgba(123,110,246,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 50% at 10% 80%, rgba(200,245,106,0.07) 0%, transparent 70%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 800px; }
+  .hero-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    padding: 0.4rem 0.9rem;
+    border: 0.5px solid var(--tag-border);
+    border-radius: 100px;
+    background: var(--tag-bg);
+  }
+  .hero-label::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+  }
+  h1 span {
+    background: linear-gradient(135deg, #c8f56a 0%, #7b6ef6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-desc {
+    font-size: 1.15rem;
+    color: var(--muted);
+    max-width: 540px;
+    margin-bottom: 2.5rem;
+    font-style: italic;
+  }
+  .hero-cta {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+  }
+  .btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    padding: 0.75rem 1.75rem;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #0a0a0f;
+    font-weight: 500;
+    border: none;
+  }
+  .btn-primary:hover { background: #d9ff7a; transform: translateY(-1px); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border: 0.5px solid var(--border2);
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  .hero-stats {
+    position: absolute; bottom: 3rem; right: 4rem;
+    display: flex; gap: 3rem;
+  }
+  .stat { text-align: right; }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 4px;
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 7rem 4rem;
+    border-top: 0.5px solid var(--border);
+  }
+  .section-header {
+    display: flex; align-items: baseline; gap: 1rem;
+    margin-bottom: 3.5rem;
+  }
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 2.4rem;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+  .about-text p {
+    color: var(--muted);
+    font-size: 1.05rem;
+    margin-bottom: 1.2rem;
+  }
+  .about-text p strong { color: var(--text); font-weight: 500; font-style: normal; }
+  .info-list { list-style: none; }
+  .info-list li {
+    display: flex; justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 0.5px solid var(--border);
+    font-size: 0.9rem;
+  }
+  .info-list li span:first-child {
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .info-list li span:last-child { color: var(--text); }
+
+  /* SKILLS */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5px;
+    background: var(--border);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .skill-card {
+    background: var(--card-bg);
+    padding: 2rem;
+    transition: background 0.2s;
+  }
+  .skill-card:hover { background: var(--bg3); }
+  .skill-icon {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .skill-icon::before {
+    content: '//';
+    opacity: 0.5;
+  }
+  .skill-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    padding: 3px 10px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.05);
+    color: var(--muted);
+    border: 0.5px solid var(--border);
+  }
+
+  /* PROJECTS */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+  .project-card {
+    background: var(--card-bg);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .project-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+  .project-card:hover::before { opacity: 1; }
+  .project-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+  }
+  .project-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+  .project-subtitle {
+    font-size: 0.82rem;
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 1rem;
+    font-style: normal;
+  }
+  .project-desc {
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+  .project-tech { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+  .tech-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    padding: 3px 9px;
+    border-radius: 4px;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    border: 0.5px solid var(--tag-border);
+  }
+
+  /* EXPERIENCE & EDUCATION */
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before {
+    content: '';
+    position: absolute; left: 0; top: 8px; bottom: 8px;
+    width: 0.5px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 3rem;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute; left: -2rem; top: 8px;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    transform: translateX(-3px);
+  }
+  .timeline-header {
+    display: flex; justify-content: space-between; align-items: start;
+    flex-wrap: wrap; gap: 0.5rem;
+    margin-bottom: 0.4rem;
+  }
+  .timeline-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+  }
+  .timeline-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    padding: 3px 10px;
+    border: 0.5px solid var(--tag-border);
+    border-radius: 100px;
+    background: var(--tag-bg);
+  }
+  .timeline-org {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+    font-style: italic;
+  }
+  .timeline-desc { color: var(--muted); font-size: 0.9rem; }
+  .timeline-detail {
+    font-size: 0.85rem;
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    margin-top: 4px;
+  }
+
+  /* CERTS */
+  .certs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+  .cert-card {
+    background: var(--card-bg);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    transition: border-color 0.2s;
+  }
+  .cert-card:hover { border-color: var(--accent2); }
+  .cert-issuer {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--accent2);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.4rem;
+  }
+  .cert-name {
+    font-size: 0.88rem;
+    color: var(--text);
+    line-height: 1.4;
+  }
+
+  /* CONTACT */
+  .contact-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .contact-text h2 { margin-bottom: 1rem; }
+  .contact-text p { color: var(--muted); font-style: italic; margin-bottom: 2rem; }
+  .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-link {
+    display: flex; align-items: center; gap: 1rem;
+    text-decoration: none;
+    color: var(--text);
+    padding: 1rem 1.25rem;
+    background: var(--card-bg);
+    border: 0.5px solid var(--border);
+    border-radius: 8px;
+    transition: border-color 0.2s, background 0.2s;
+    font-size: 0.9rem;
+  }
+  .contact-link:hover {
+    border-color: var(--accent);
+    background: rgba(200,245,106,0.04);
+  }
+  .contact-link-icon {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    width: 50px;
+    text-align: center;
+    letter-spacing: 0.05em;
+  }
+  .contact-link-label { color: var(--muted); font-size: 0.8rem; margin-top: 2px; }
+
+  .availability {
+    background: var(--card-bg);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    padding: 2.5rem;
+    text-align: center;
+  }
+  .avail-dot {
+    display: inline-block;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-right: 8px;
+    animation: pulse 2s infinite;
+  }
+  .avail-status {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+  }
+  .avail-text {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+  .avail-sub { color: var(--muted); font-size: 0.88rem; margin-bottom: 1.5rem; }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 4rem;
+    border-top: 0.5px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  footer p {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .footer-name { color: var(--accent); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { animation: fadeUp 0.7s ease both; }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+  .delay-4 { animation-delay: 0.45s; }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1rem; }
+    .hero { padding: 7rem 1.5rem 8rem; }
+    .hero-stats { display: none; }
+    section { padding: 5rem 1.5rem; }
+    .about-grid, .contact-wrapper { grid-template-columns: 1fr; gap: 3rem; }
+    footer { padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">MR</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="border-top: none;">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-label fade-up">Available for Opportunities</div>
+    <h1 class="fade-up delay-1">Manoranjitham<br><span>R</span></h1>
+    <p class="hero-desc fade-up delay-2">
+      AI Engineer building intelligent systems with Generative AI, Machine Learning, and LLM-powered solutions.
+    </p>
+    <div class="hero-cta fade-up delay-3">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="mailto:mmanoranjitham7@gmail.com" class="btn btn-ghost">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-stats fade-up delay-4">
+    <div class="stat">
+      <div class="stat-num">9.02</div>
+      <div class="stat-label">CGPA</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">21+</div>
+      <div class="stat-label">Repositories</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">5+</div>
+      <div class="stat-label">Certifications</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2>About Me</h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>
+        I'm an <strong>AI Engineer Enthusiast</strong> currently pursuing B.Tech in Artificial Intelligence and Data Science at Rathinam Technical Campus, Coimbatore — maintaining a CGPA of 9.02.
+      </p>
+      <p>
+        My focus lies in designing and deploying <strong>end-to-end AI systems</strong> — from RAG pipelines and LLM agents to deep learning models with explainability. I love working at the intersection of practical engineering and cutting-edge AI research.
+      </p>
+      <p>
+        Beyond models and code, I'm passionate about <strong>translating raw data into actionable insights</strong> and building tools that solve real-world problems — whether that's helping farmers detect paddy diseases or enabling natural language data analysis.
+      </p>
+    </div>
+    <ul class="info-list">
+      <li><span>Degree</span><span>B.Tech AI & Data Science</span></li>
+      <li><span>Institution</span><span>Rathinam Technical Campus</span></li>
+      <li><span>Location</span><span>Coimbatore, Tamil Nadu</span></li>
+      <li><span>CGPA</span><span>9.02 / 10</span></li>
+      <li><span>Languages</span><span>English, Tamil</span></li>
+      <li><span>Email</span><span>mmanoranjitham7@gmail.com</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2>Technical Skills</h2>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-icon">Languages</div>
+      <div class="skill-title">Programming</div>
+      <div class="skill-tags">
+        <span class="tag">Python</span>
+        <span class="tag">Java</span>
+        <span class="tag">C</span>
+        <span class="tag">SQL</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">AI & LLM</div>
+      <div class="skill-title">Generative AI</div>
+      <div class="skill-tags">
+        <span class="tag">LangChain</span>
+        <span class="tag">RAG Pipelines</span>
+        <span class="tag">AI Agents</span>
+        <span class="tag">CrewAI</span>
+        <span class="tag">Ollama</span>
+        <span class="tag">Claude API</span>
+        <span class="tag">OpenAI API</span>
+        <span class="tag">FastAPI</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">ML & DL</div>
+      <div class="skill-title">Machine Learning</div>
+      <div class="skill-tags">
+        <span class="tag">Supervised Learning</span>
+        <span class="tag">Unsupervised Learning</span>
+        <span class="tag">Neural Networks</span>
+        <span class="tag">NLP</span>
+        <span class="tag">Feature Engineering</span>
+        <span class="tag">Model Optimization</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">Libraries</div>
+      <div class="skill-title">Python Ecosystem</div>
+      <div class="skill-tags">
+        <span class="tag">NumPy</span>
+        <span class="tag">Pandas</span>
+        <span class="tag">scikit-learn</span>
+        <span class="tag">TensorFlow</span>
+        <span class="tag">Streamlit</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">Data</div>
+      <div class="skill-title">Data Science</div>
+      <div class="skill-tags">
+        <span class="tag">EDA</span>
+        <span class="tag">Data Visualization</span>
+        <span class="tag">Power BI</span>
+        <span class="tag">Excel</span>
+        <span class="tag">n8n Automation</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">Cloud & DB</div>
+      <div class="skill-title">Infrastructure</div>
+      <div class="skill-tags">
+        <span class="tag">AWS</span>
+        <span class="tag">PostgreSQL</span>
+        <span class="tag">MySQL</span>
+        <span class="tag">GitHub</span>
+        <span class="tag">Google Colab</span>
+        <span class="tag">Jupyter</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2>Projects</h2>
+  </div>
+  <div class="projects-grid">
+
+    <div class="project-card">
+      <div class="project-num">Project 01</div>
+      <div class="project-title">Paddy Disease Detection</div>
+      <div class="project-subtitle">Computer Vision · Deep Learning · Explainable AI</div>
+      <p class="project-desc">
+        Built a deep learning model using MobileNetV2 transfer learning for early identification of crop diseases. Developed a Streamlit app with Grad-CAM explainability and confidence-based predictions to assist farmers with treatment recommendations.
+      </p>
+      <div class="project-tech">
+        <span class="tech-tag">MobileNetV2</span>
+        <span class="tech-tag">TensorFlow</span>
+        <span class="tech-tag">Grad-CAM</span>
+        <span class="tech-tag">Streamlit</span>
+        <span class="tech-tag">Transfer Learning</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-num">Project 02</div>
+      <div class="project-title">ZenithBooks</div>
+      <div class="project-subtitle">Full Stack · Enterprise System · Spring Boot</div>
+      <p class="project-desc">
+        A modern scalable Book Management Enterprise built with a React frontend and Spring Boot REST APIs. Implemented JWT-based authentication and PostgreSQL integration for secure user management, book search, and paginated data handling.
+      </p>
+      <div class="project-tech">
+        <span class="tech-tag">React</span>
+        <span class="tech-tag">Spring Boot</span>
+        <span class="tech-tag">PostgreSQL</span>
+        <span class="tech-tag">JWT Auth</span>
+        <span class="tech-tag">REST API</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-num">Project 03</div>
+      <div class="project-title">AI-Powered Data Analyst Agent</div>
+      <div class="project-subtitle">LLM Agent · EDA Automation · Natural Language</div>
+      <p class="project-desc">
+        Built a Python-based AI agent using Ollama to automate exploratory data analysis and generate insights. Enabled natural language querying for trend and anomaly detection using LLM reasoning, with a Streamlit dashboard for real-time, API-free analysis.
+      </p>
+      <div class="project-tech">
+        <span class="tech-tag">Ollama</span>
+        <span class="tech-tag">LLM Agents</span>
+        <span class="tech-tag">Streamlit</span>
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">EDA</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-num">Project 04</div>
+      <div class="project-title">Sentinel AI Fraud Agent</div>
+      <div class="project-subtitle">AI Agent · Fraud Detection · Automation</div>
+      <p class="project-desc">
+        An intelligent fraud detection agent built using LLM-based reasoning and machine learning signals to identify anomalous patterns in transactional data. Automates investigation workflows with explainable AI output.
+      </p>
+      <div class="project-tech">
+        <span class="tech-tag">AI Agents</span>
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">Anomaly Detection</span>
+        <span class="tech-tag">LLM Reasoning</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-num">Project 05</div>
+      <div class="project-title">Personality Finder</div>
+      <div class="project-subtitle">NLP · Classification · Data Analysis</div>
+      <p class="project-desc">
+        A data-driven personality analysis tool that leverages NLP techniques and classification models to identify personality traits from text input, with comprehensive visualizations of results.
+      </p>
+      <div class="project-tech">
+        <span class="tech-tag">NLP</span>
+        <span class="tech-tag">scikit-learn</span>
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">Jupyter</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-num">Project 06</div>
+      <div class="project-title">Wholesale Customer Segmentation</div>
+      <div class="project-subtitle">Unsupervised Learning · Clustering · Business Analytics</div>
+      <p class="project-desc">
+        Applied unsupervised learning techniques including K-Means and hierarchical clustering to segment wholesale customers, enabling data-driven marketing strategy and inventory planning insights.
+      </p>
+      <div class="project-tech">
+        <span class="tech-tag">K-Means</span>
+        <span class="tech-tag">Clustering</span>
+        <span class="tech-tag">Pandas</span>
+        <span class="tech-tag">Matplotlib</span>
+        <span class="tech-tag">EDA</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EXPERIENCE & EDUCATION -->
+<section id="experience">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2>Experience & Education</h2>
+  </div>
+  <div class="about-grid">
+    <div>
+      <h3 style="font-family: 'DM Mono', monospace; font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2rem;">Work Experience</h3>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-header">
+            <span class="timeline-title">Web Development Intern</span>
+            <span class="timeline-date">Jan – Feb 2025</span>
+          </div>
+          <div class="timeline-org">Zonex · Coimbatore</div>
+          <p class="timeline-desc">
+            Completed a Web Development internship covering HTML, CSS, JavaScript, and responsive design fundamentals. Gained exposure to real-world development workflows, improving foundational coding and debugging skills.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h3 style="font-family: 'DM Mono', monospace; font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2rem;">Education</h3>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-header">
+            <span class="timeline-title">B.Tech — AI & Data Science</span>
+            <span class="timeline-date">2023 – Present</span>
+          </div>
+          <div class="timeline-org">Rathinam Technical Campus · Coimbatore</div>
+          <div class="timeline-detail">CGPA: 9.02</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-header">
+            <span class="timeline-title">Higher Secondary (HSC)</span>
+            <span class="timeline-date">2022 – 2023</span>
+          </div>
+          <div class="timeline-org">Jaivabai MGHSS · Tiruppur</div>
+          <div class="timeline-detail">90%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <h2>Certifications</h2>
+  </div>
+  <div class="certs-grid">
+    <div class="cert-card">
+      <div class="cert-issuer">AWS Academy</div>
+      <div class="cert-name">Machine Learning Foundations</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-issuer">AWS Academy</div>
+      <div class="cert-name">Machine Learning for NLP</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-issuer">Coursera</div>
+      <div class="cert-name">Business Analysis & Project Management</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-issuer">NPTEL</div>
+      <div class="cert-name">Cloud Computing — Elite</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-issuer">Office Master</div>
+      <div class="cert-name">Power BI Advanced Workshop — Data Analytics & Dashboarding</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-wrapper">
+    <div class="contact-text">
+      <div class="section-header" style="margin-bottom: 1rem;">
+        <span class="section-num">06</span>
+        <h2>Let's Connect</h2>
+      </div>
+      <p>
+        I'm open to internships, research collaborations, and AI engineering opportunities. Feel free to reach out!
+      </p>
+      <div class="contact-links">
+        <a href="mailto:mmanoranjitham7@gmail.com" class="contact-link">
+          <span class="contact-link-icon">Email</span>
+          <div>
+            <div>mmanoranjitham7@gmail.com</div>
+            <div class="contact-link-label">Drop me a line anytime</div>
+          </div>
+        </a>
+        <a href="https://github.com/ManoranjithamRajendhiran" class="contact-link" target="_blank">
+          <span class="contact-link-icon">GitHub</span>
+          <div>
+            <div>ManoranjithamRajendhiran</div>
+            <div class="contact-link-label">21+ public repositories</div>
+          </div>
+        </a>
+        <a href="https://www.linkedin.com/in/manoranjitham-r-6b9215364/" class="contact-link" target="_blank">
+          <span class="contact-link-icon">LinkedIn</span>
+          <div>
+            <div>manoranjitham-r</div>
+            <div class="contact-link-label">Connect professionally</div>
+          </div>
+        </a>
+        <a href="tel:+917502529750" class="contact-link">
+          <span class="contact-link-icon">Phone</span>
+          <div>
+            <div>+91 7502529750</div>
+            <div class="contact-link-label">Available Mon–Sat</div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="availability">
+      <div class="avail-status"><span class="avail-dot"></span>Currently Available</div>
+      <div class="avail-text">Open to Internships<br>& Full-time Roles</div>
+      <div class="avail-sub">AI Engineering · ML Research · Data Science</div>
+      <a href="mailto:mmanoranjitham7@gmail.com" class="btn btn-primary" style="display: inline-block; margin-top: 0.5rem;">
+        Send a Message
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 <span class="footer-name">Manoranjitham R</span> — AI Engineer Enthusiast</p>
+  <p>Built with passion · Coimbatore, Tamil Nadu</p>
+</footer>
+
+</body>
+</html>
